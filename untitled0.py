@@ -76,10 +76,6 @@ else:
     print("No emails found")
 
 
-
-
-
-
 response = requests.get(URL)
 response.raise_for_status() 
 
@@ -138,7 +134,8 @@ FINAL_COLUMNS = [
     "Drops",
     "Campaign Connector",
     "Billable Count",
-    "Dataframe Name"
+    "Dataframe Name",
+    "Tag Category"
 ]
 
 COLUMN_MAPPING = {
@@ -182,7 +179,8 @@ COLUMN_MAPPING = {
     "Complaints rate": "Complaints rate",
     "Drops": "Drops",
     "Campaign Connector": None,
-    "Billable Count": None
+    "Billable Count": None,
+    "Tag Category":"Tag Category: Uncategorized"
 },
     
     "_FLOWS_SMS_": {
@@ -226,7 +224,8 @@ COLUMN_MAPPING = {
     "Complaints rate": None,
     "Drops": None,
     "Campaign Connector": "Campaign Connector",
-    "Billable Count": "Billable Count"
+    "Billable Count": "Billable Count",
+    "Tag Category":"Tag Category: Uncategorized"
 },
     
     "_FLOWS_WHATSAPP_": {
@@ -268,7 +267,8 @@ COLUMN_MAPPING = {
     "Complaints rate": None,
     "Drops": None,
     "Campaign Connector": None,
-    "Billable Count": None
+    "Billable Count": None,
+    "Tag Category":"Tag Category: Uncategorized"
 },
     
     "_FLOWS_PUSH_": {
@@ -310,7 +310,8 @@ COLUMN_MAPPING = {
     "Complaints rate": None,
     "Drops": None,
     "Campaign Connector": None,
-    "Billable Count": None
+    "Billable Count": None,
+    "Tag Category":"Tag Category: Uncategorized"
 },
     
     "_FLOWS_ON_SITE_": {
@@ -352,7 +353,8 @@ COLUMN_MAPPING = {
     "Complaints rate": None,
     "Drops": None,
     "Campaign Connector": None,
-    "Billable Count": None
+    "Billable Count": None,
+    "Tag Category":None
 },
     
     "EMAIL": {
@@ -394,7 +396,8 @@ COLUMN_MAPPING = {
     "Complaints rate": "Complaints rate",
     "Drops": "Drops",
     "Campaign Connector": None,
-    "Billable Count": None
+    "Billable Count": None,
+    "Tag Category":"Tag Category: Uncategorized"
 },
 
     "SMS": {
@@ -436,7 +439,8 @@ COLUMN_MAPPING = {
     "Complaints rate": None,
     "Drops": None,
     "Campaign Connector": "Campaign Connector",
-    "Billable Count": "Billable Count"
+    "Billable Count": "Billable Count",
+    "Tag Category":"Tag Category: Uncategorized"
 },
 
     "WHATSAPP": {
@@ -478,7 +482,8 @@ COLUMN_MAPPING = {
     "Complaints rate": None,
     "Drops": None,
     "Campaign Connector": None,
-    "Billable Count": None
+    "Billable Count": None,
+    "Tag Category":"Tag Category: Uncategorized"
 },
 
     "PUSH": {
@@ -520,7 +525,8 @@ COLUMN_MAPPING = {
     "Complaints rate": None,
     "Drops": None,
     "Campaign Connector": None,
-    "Billable Count": None
+    "Billable Count": None,
+    "Tag Category":"Tag Category: Uncategorized"
 },
     "In-App": {
     "Campaign ID": "Campaign ID",
@@ -561,7 +567,8 @@ COLUMN_MAPPING = {
     "Complaints rate": None,
     "Drops": None,
     "Campaign Connector": None,
-    "Billable Count": None
+    "Billable Count": None,
+    "Tag Category":"Tag Category: Uncategorized"
 },
     "ON_SITE": {
     "Campaign ID": "Campaign ID",
@@ -602,7 +609,8 @@ COLUMN_MAPPING = {
     "Complaints rate": None,
     "Drops": None,
     "Campaign Connector": None,
-    "Billable Count": None
+    "Billable Count": None,
+    "Tag Category":"Tag Category: Uncategorized"
 }
 }
 
