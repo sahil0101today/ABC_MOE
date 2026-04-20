@@ -654,6 +654,9 @@ yesterday = (date.today() - timedelta(days=1)).strftime('%Y-%m-%d')
 master_df["Date"] = yesterday
 master_df.fillna("", inplace=True)
 
+master_df_dummy = master_df
+
+#############################################################################
 import os
 import json
 import base64
@@ -665,7 +668,52 @@ from google.cloud import bigquery
 # -----------------------------
 # 1. Prepare DataFrame
 # -----------------------------
-master_df_dummy = master_df.iloc[1:].reset_index(drop=True)
+import re
+
+def clean_bq_columns(df):
+    cleaned_columns = []
+    seen = {}
+
+    for col in df.columns:
+        # Convert to string
+        col = str(col)
+
+        # Replace invalid characters with underscore
+        col = re.sub(r'[^A-Za-z0-9_]', '_', col)
+
+        # Remove multiple underscores
+        col = re.sub(r'_+', '_', col)
+
+        # Remove leading/trailing underscores
+        col = col.strip('_')
+
+        # Ensure starts with letter or underscore
+        if not re.match(r'^[A-Za-z_]', col):
+            col = f'col_{col}'
+
+        # Convert to lowercase (optional but recommended)
+        col = col.upper()
+
+        # Trim to 300 characters
+        col = col[:300]
+
+        # Handle duplicates
+        if col in seen:
+            seen[col] += 1
+            col = f"{col}_{seen[col]}"
+        else:
+            seen[col] = 0
+
+        cleaned_columns.append(col)
+
+    df.columns = cleaned_columns
+    return 
+
+try:
+    clean_bq_columns(master_df_dummy)
+except:
+    pass
+
 
 # Replace empty strings + NaN properly (CRITICAL FIX)
 master_df_dummy = master_df_dummy.replace(r'^\s*$', None, regex=True)
@@ -737,6 +785,8 @@ job = client.load_table_from_dataframe(
 job.result()
 
 print("✅ Data appended successfully to BigQuery 🚀")
+
+###########################################################################
 
 
 web_app_url = "https://script.google.com/macros/s/AKfycbzyMmyFWRLa6SvxV47vDlBA2jGGPckkXe_TtdM4KxH-8iFsOve5C-7J3CnxUoDEQMqh/exec"
