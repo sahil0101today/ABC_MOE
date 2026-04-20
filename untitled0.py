@@ -654,6 +654,41 @@ yesterday = (date.today() - timedelta(days=1)).strftime('%Y-%m-%d')
 master_df["Date"] = yesterday
 master_df.fillna("", inplace=True)
 
+master_df_dummy = master_df.iloc[1:].reset_index(drop=True)
+import os
+import json
+import base64
+from google.oauth2 import service_account
+from google.cloud import bigquery
+
+encoded_key = os.environ.get("GCP_SA_KEY")
+decoded_key = json.loads(base64.b64decode(encoded_key))
+
+credentials = service_account.Credentials.from_service_account_info(decoded_key)
+
+client = bigquery.Client(
+    credentials=credentials,
+    project="bigqueryfacebook"
+)
+
+# 🔹 Define table ID
+table_id = "bigqueryfacebook.ABCL.ABCL_ENGAGEMENT_DATA"
+
+# 🔹 Job config (APPEND)
+job_config = bigquery.LoadJobConfig(
+    write_disposition=bigquery.WriteDisposition.WRITE_APPEND
+)
+
+# 🔹 Upload DataFrame
+job = client.load_table_from_dataframe(
+    master_df_dummy,
+    table_id,
+    job_config=job_config
+)
+
+job.result()  # Wait for completion
+print("Data appended successfully to GCP 🚀")
+
 
 web_app_url = "https://script.google.com/macros/s/AKfycbzyMmyFWRLa6SvxV47vDlBA2jGGPckkXe_TtdM4KxH-8iFsOve5C-7J3CnxUoDEQMqh/exec"
 
