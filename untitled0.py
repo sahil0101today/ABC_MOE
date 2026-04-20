@@ -654,8 +654,6 @@ yesterday = (date.today() - timedelta(days=1)).strftime('%Y-%m-%d')
 master_df["Date"] = yesterday
 master_df.fillna("", inplace=True)
 
-###################################################################################
-
 import os
 import json
 import base64
@@ -664,21 +662,47 @@ import pandas as pd
 from google.oauth2 import service_account
 from google.cloud import bigquery
 
+# -----------------------------
+# 1. Prepare DataFrame
+# -----------------------------
 master_df_dummy = master_df.iloc[1:].reset_index(drop=True)
 
-# Replace empty strings with None (VERY IMPORTANT for BigQuery)
+# Replace empty strings + NaN properly (CRITICAL FIX)
 master_df_dummy = master_df_dummy.replace(r'^\s*$', None, regex=True)
-
-# Replace NaN with None
 master_df_dummy = master_df_dummy.replace({np.nan: None})
 
-# Convert object columns safely
-for col in master_df_dummy.columns:
-    if master_df_dummy[col].dtype == 'object':
-        master_df_dummy[col] = master_df_dummy[col].astype(str)
+# Convert object columns to pandas string dtype
+for col in master_df_dummy.select_dtypes(include=["object"]).columns:
+    master_df_dummy[col] = master_df_dummy[col].astype("string")
 
 # -----------------------------
-# 2. Auth (from GitHub Secret)
+# 2. Build Schema (Your approach improved)
+# -----------------------------
+schema = []
+
+for col, dtype in master_df_dummy.dtypes.items():
+
+    dtype_str = str(dtype)
+
+    if "Int" in dtype_str or "int" in dtype_str:
+        field_type = "INT64"
+
+    elif "float" in dtype_str:
+        field_type = "FLOAT64"
+
+    elif "datetime" in dtype_str:
+        field_type = "TIMESTAMP"
+
+    elif "bool" in dtype_str:
+        field_type = "BOOL"
+
+    else:
+        field_type = "STRING"
+
+    schema.append(bigquery.SchemaField(col, field_type))
+
+# -----------------------------
+# 3. Auth (GitHub Secret)
 # -----------------------------
 encoded_key = os.environ.get("GCP_SA_KEY")
 decoded_key = json.loads(base64.b64decode(encoded_key))
@@ -691,18 +715,18 @@ client = bigquery.Client(
 )
 
 # -----------------------------
-# 3. Table Config
+# 4. Table Config (APPEND)
 # -----------------------------
 table_id = "bigqueryfacebook.ABCL.ABCL_ENGAGEMENT_DATA"
 
-# IMPORTANT: Force schema inference OFF (avoids arrow guessing wrong types)
 job_config = bigquery.LoadJobConfig(
+    schema=schema,
     write_disposition=bigquery.WriteDisposition.WRITE_APPEND,
     autodetect=False
 )
 
 # -----------------------------
-# 4. Upload
+# 5. Upload
 # -----------------------------
 job = client.load_table_from_dataframe(
     master_df_dummy,
@@ -713,7 +737,6 @@ job = client.load_table_from_dataframe(
 job.result()
 
 print("✅ Data appended successfully to BigQuery 🚀")
-######################################################################################
 
 
 web_app_url = "https://script.google.com/macros/s/AKfycbzyMmyFWRLa6SvxV47vDlBA2jGGPckkXe_TtdM4KxH-8iFsOve5C-7J3CnxUoDEQMqh/exec"
