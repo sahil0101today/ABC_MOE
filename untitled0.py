@@ -655,6 +655,12 @@ master_df["Date"] = yesterday
 master_df.fillna("", inplace=True)
 
 master_df_dummy = master_df.iloc[1:].reset_index(drop=True)
+
+# Convert all object columns to string
+for col in master_df_dummy.columns:
+    if master_df_dummy[col].dtype == 'object':
+        master_df_dummy[col] = master_df_dummy[col].astype(str)
+        
 import os
 import json
 import base64
