@@ -654,7 +654,16 @@ yesterday = (date.today() - timedelta(days=1)).strftime('%Y-%m-%d')
 master_df["Date"] = yesterday
 master_df.fillna("", inplace=True)
 
-###################################################################################33
+###################################################################################
+
+import os
+import json
+import base64
+import numpy as np
+import pandas as pd
+from google.oauth2 import service_account
+from google.cloud import bigquery
+
 master_df_dummy = master_df.iloc[1:].reset_index(drop=True)
 
 # Replace empty strings with None (VERY IMPORTANT for BigQuery)
