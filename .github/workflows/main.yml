@@ -13,13 +13,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4  # Updated to the latest version
-      - name: Set up Python
-        uses: actions/setup-python@v4  # Updated to v4
-        with:
-          python-version: '3.10'
-      - name: Install requirements
-        run: pip install -r requirements.txt
-      - name: Run ABC_MOE
-        run: python untitled0.py
+    - name: Checkout repo
+      uses: actions/checkout@v4
+  
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+  
+    - name: Install requirements
+      run: pip install -r requirements.txt
+  
+    - name: Run ABC_MOE
+      env:
+        GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+      run: python untitled0.py
