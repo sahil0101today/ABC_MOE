@@ -654,19 +654,23 @@ yesterday = (date.today() - timedelta(days=1)).strftime('%Y-%m-%d')
 master_df["Date"] = yesterday
 master_df.fillna("", inplace=True)
 
+###################################################################################33
 master_df_dummy = master_df.iloc[1:].reset_index(drop=True)
 
-# Convert all object columns to string
+# Replace empty strings with None (VERY IMPORTANT for BigQuery)
+master_df_dummy = master_df_dummy.replace(r'^\s*$', None, regex=True)
+
+# Replace NaN with None
+master_df_dummy = master_df_dummy.replace({np.nan: None})
+
+# Convert object columns safely
 for col in master_df_dummy.columns:
     if master_df_dummy[col].dtype == 'object':
         master_df_dummy[col] = master_df_dummy[col].astype(str)
-        
-import os
-import json
-import base64
-from google.oauth2 import service_account
-from google.cloud import bigquery
 
+# -----------------------------
+# 2. Auth (from GitHub Secret)
+# -----------------------------
 encoded_key = os.environ.get("GCP_SA_KEY")
 decoded_key = json.loads(base64.b64decode(encoded_key))
 
@@ -677,23 +681,30 @@ client = bigquery.Client(
     project="bigqueryfacebook"
 )
 
-# 🔹 Define table ID
+# -----------------------------
+# 3. Table Config
+# -----------------------------
 table_id = "bigqueryfacebook.ABCL.ABCL_ENGAGEMENT_DATA"
 
-# 🔹 Job config (APPEND)
+# IMPORTANT: Force schema inference OFF (avoids arrow guessing wrong types)
 job_config = bigquery.LoadJobConfig(
-    write_disposition=bigquery.WriteDisposition.WRITE_APPEND
+    write_disposition=bigquery.WriteDisposition.WRITE_APPEND,
+    autodetect=False
 )
 
-# 🔹 Upload DataFrame
+# -----------------------------
+# 4. Upload
+# -----------------------------
 job = client.load_table_from_dataframe(
     master_df_dummy,
     table_id,
     job_config=job_config
 )
 
-job.result()  # Wait for completion
-print("Data appended successfully to GCP 🚀")
+job.result()
+
+print("✅ Data appended successfully to BigQuery 🚀")
+######################################################################################
 
 
 web_app_url = "https://script.google.com/macros/s/AKfycbzyMmyFWRLa6SvxV47vDlBA2jGGPckkXe_TtdM4KxH-8iFsOve5C-7J3CnxUoDEQMqh/exec"
