@@ -656,6 +656,15 @@ master_df.fillna("", inplace=True)
 
 master_df_dummy = master_df
 
+master_df_dummy['CAMPAIGN_TAG'] = (
+    master_df_dummy['CAMPAIGN_TAG']
+    .astype(str)
+    .str.replace('[', '', regex=False)
+    .str.replace(']', '', regex=False)
+    .str.replace("'", '', regex=False)
+    .str.strip()
+)
+
 #############################################################################
 import os
 import json
