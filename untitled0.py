@@ -135,7 +135,7 @@ FINAL_COLUMNS = [
     "Campaign Connector",
     "Billable Count",
     "Dataframe Name",
-    "Tag Category"
+    "CAMPAIGN_TAG"
 ]
 
 COLUMN_MAPPING = {
@@ -180,7 +180,7 @@ COLUMN_MAPPING = {
     "Drops": "Drops",
     "Campaign Connector": None,
     "Billable Count": None,
-    "Tag Category":"Tag Category: Uncategorized"
+    "CAMPAIGN_TAG":"Tag Category: Uncategorized"
 },
     
     "_FLOWS_SMS_": {
@@ -225,7 +225,7 @@ COLUMN_MAPPING = {
     "Drops": None,
     "Campaign Connector": "Campaign Connector",
     "Billable Count": "Billable Count",
-    "Tag Category":"Tag Category: Uncategorized"
+    "CAMPAIGN_TAG":"Tag Category: Uncategorized"
 },
     
     "_FLOWS_WHATSAPP_": {
@@ -268,7 +268,7 @@ COLUMN_MAPPING = {
     "Drops": None,
     "Campaign Connector": None,
     "Billable Count": None,
-    "Tag Category":"Tag Category: Uncategorized"
+    "CAMPAIGN_TAG":"Tag Category: Uncategorized"
 },
     
     "_FLOWS_PUSH_": {
@@ -311,7 +311,7 @@ COLUMN_MAPPING = {
     "Drops": None,
     "Campaign Connector": None,
     "Billable Count": None,
-    "Tag Category":"Tag Category: Uncategorized"
+    "CAMPAIGN_TAG":"Tag Category: Uncategorized"
 },
     
     "_FLOWS_ON_SITE_": {
@@ -354,7 +354,7 @@ COLUMN_MAPPING = {
     "Drops": None,
     "Campaign Connector": None,
     "Billable Count": None,
-    "Tag Category":None
+    "CAMPAIGN_TAG":None
 },
     
     "EMAIL": {
@@ -397,7 +397,7 @@ COLUMN_MAPPING = {
     "Drops": "Drops",
     "Campaign Connector": None,
     "Billable Count": None,
-    "Tag Category":"Tag Category: Uncategorized"
+    "CAMPAIGN_TAG":"Tag Category: Uncategorized"
 },
 
     "SMS": {
@@ -440,7 +440,7 @@ COLUMN_MAPPING = {
     "Drops": None,
     "Campaign Connector": "Campaign Connector",
     "Billable Count": "Billable Count",
-    "Tag Category":"Tag Category: Uncategorized"
+    "CAMPAIGN_TAG":"Tag Category: Uncategorized"
 },
 
     "WHATSAPP": {
@@ -483,7 +483,7 @@ COLUMN_MAPPING = {
     "Drops": None,
     "Campaign Connector": None,
     "Billable Count": None,
-    "Tag Category":"Tag Category: Uncategorized"
+    "CAMPAIGN_TAG":"Tag Category: Uncategorized"
 },
 
     "PUSH": {
@@ -526,7 +526,7 @@ COLUMN_MAPPING = {
     "Drops": None,
     "Campaign Connector": None,
     "Billable Count": None,
-    "Tag Category":"Tag Category: Uncategorized"
+    "CAMPAIGN_TAG":"Tag Category: Uncategorized"
 },
     "In-App": {
     "Campaign ID": "Campaign ID",
@@ -568,7 +568,7 @@ COLUMN_MAPPING = {
     "Drops": None,
     "Campaign Connector": None,
     "Billable Count": None,
-    "Tag Category":"Tag Category: Uncategorized"
+    "CAMPAIGN_TAG":"Tag Category: Uncategorized"
 },
     "ON_SITE": {
     "Campaign ID": "Campaign ID",
@@ -610,7 +610,7 @@ COLUMN_MAPPING = {
     "Drops": None,
     "Campaign Connector": None,
     "Billable Count": None,
-    "Tag Category":"Tag Category: Uncategorized"
+    "CAMPAIGN_TAG":"Tag Category: Uncategorized"
 }
 }
 
